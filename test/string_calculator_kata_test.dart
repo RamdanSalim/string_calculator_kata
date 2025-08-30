@@ -42,6 +42,14 @@ void main() {
   {
     expect(add("//;\n1;2"),equals(3));
   });
+
+  //"1,-2"
+  test('check for negative number',()
+  {
+    expect(()=> add("1,-2"),throwsA(
+      predicate((e)=> e.toString()== 'negative numbers not allowed : -2')
+    ));
+  });
 }
 
 
