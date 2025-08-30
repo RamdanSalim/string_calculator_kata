@@ -1,4 +1,4 @@
-int calculate(String num) {
+int add(String num) {
   if(num.isEmpty)
   {
   return 0;
