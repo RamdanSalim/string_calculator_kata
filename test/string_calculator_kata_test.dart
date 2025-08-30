@@ -1,4 +1,3 @@
-import 'package:string_calculator_kata/string_calculator_kata.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -27,4 +26,21 @@ void main() {
   {
     expect(add("1\n2,3"),equals(6));
   });
+}
+
+
+//test code
+int add(String num) {
+  if(num.isEmpty)
+  {
+    return 0;
+  }
+
+  if(num.contains(','))
+  {
+    final sum = num.replaceAll('\n',',').split(',');
+    return sum.map(int.parse).reduce((a,b)=> a+b);
+  }
+
+  return int.parse(num);
 }
