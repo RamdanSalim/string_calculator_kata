@@ -82,13 +82,15 @@ int add(String num) {
   }
 
   final numList = number.split(RegExp(delimiterPattern));
-  final integerNum = numList.map(int.parse).toList();
+  final integerList = numList.map(int.parse).toList();
 
   //check for negative numbers
-  final negative = integerNum.where((n) => n < 0).toList();
+  final negative = integerList.where((n) => n < 0).toList();
   if (negative.isNotEmpty) {
     throw Exception('negative numbers not allowed : ${negative.join(',')}');
   }
 
-  return integerNum.reduce((a, b) => a + b);
+  final filteredList = integerList.where((n) => n <= 1000).toList();
+
+  return filteredList.isEmpty ? 0 : filteredList.reduce((a, b) => a + b);
 }
