@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:test/test.dart';
 
 void main() {
@@ -51,6 +53,11 @@ void main() {
         ),
       ),
     );
+  });
+
+  //input : "2,1001", output : 2
+  test('check for number greater than 1000 and ignore it in the sum', () {
+    expect(add("2,1001"), equals(2));
   });
 }
 
