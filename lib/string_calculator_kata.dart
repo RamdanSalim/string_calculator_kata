@@ -8,7 +8,8 @@ int add(String num) {
 
   if (num.startsWith('//[')) {
     //multiple delimiter length
-    delimiterPattern = finalNumber(num);
+
+    delimiterPattern = delimiterFn(num);
     number = num.substring(number.indexOf('\n') + 1);
   } else if (num.startsWith('//')) {
     //single delimiter
@@ -45,7 +46,7 @@ String delimiterIs(int num, String numbers, int delimiterIndex) {
   return RegExp.escape(numbers.substring(num, delimiterIndex));
 }
 
-String finalNumber(String num) {
+String delimiterFn(String num) {
   final delimiters = <String>[];
 
   int start = 0;
