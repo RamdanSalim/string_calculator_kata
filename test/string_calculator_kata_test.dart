@@ -43,13 +43,16 @@ void main() {
     expect(add("//;\n1;2"),equals(3));
   });
 
-  //"1,-2"
+  //input : "1,-2", output : negative numbers not allowed : -2
   test('check for negative number',()
   {
-    expect(()=> add("1,-2"),throwsA(
-      predicate((e)=> e.toString()== 'negative numbers not allowed : -2')
-    ));
+    expect(
+            ()=> add("1,-2"),
+        throwsA(predicate((e)=> e.toString() == 'Exception: negative numbers not allowed : -2'))
+    );
   });
+
+
 }
 
 
@@ -78,6 +81,14 @@ int add(String num) {
     }
 
   final numList = number.split(RegExp(delimiterPattern));
+  final integerNum =   numList.map(int.parse).toList();
 
-  return numList.map(int.parse).reduce((a,b)=> a+b);
+  //check for negative numbers
+  final negative = integerNum.where((n)=> n<0).toList();
+  if(negative.isNotEmpty)
+    {
+      throw Exception('negative numbers not allowed : ${negative.join(',')}');
+    }
+
+  return integerNum.reduce((a,b)=> a+b);
 }
