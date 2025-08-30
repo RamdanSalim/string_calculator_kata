@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:string_calculator_kata/string_calculator_kata.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -58,6 +57,7 @@ void main() {
   //input : "2,1001", output : 2
   test('check for number greater than 1000 and ignore it in the sum', () {
     expect(add("2,1001"), equals(2));
+    expect(add("1000,1001,5"), equals(1005));
   });
 
   //[***]\n1***2***3, output : 6
@@ -68,61 +68,7 @@ void main() {
   //input: //[delim1][delim2]\n, output: 6
   test('multiple number of delimiters check and sum', () {
     expect(add("//[*][%]\n1*2%3"), equals(6));
+    expect(add("//[***][%%]\n4***5%%6"), equals(15));
+    expect(add("//[;][***][%]\n1;2***3%4"), equals(10));
   });
-}
-
-//test code
-int add(String num) {
-  if (num.isEmpty) return 0;
-
-  //raw string to avoid escape or special regexp chars
-  String delimiterPattern = r'[,\n]';
-  String number = num;
-
-  int start = 0;
-  if (num.startsWith('//[')) {
-    final delimiters = <String>[];
-
-    //multiple delimiter length
-
-    while (true) {
-      final open = num.indexOf('[', start);
-      if (open == -1) break;
-      final close = num.indexOf(']', open);
-      delimiters.add(RegExp.escape(num.substring(open + 1, close)));
-      start = close + 1;
-    }
-    delimiterPattern = delimiters.join('|');
-    number = num.substring(number.indexOf('\n') + 1);
-  } else if (num.startsWith('//')) {
-    //single delimiter
-
-    //assign the index of \n
-    final delimiterIndex = num.indexOf('\n');
-    //find the customer delimiter
-    final delimiter = delimiterIs(2, num, delimiterIndex);
-    //assign the custom delimiter to the pattern
-    delimiterPattern = delimiter;
-
-    //assign the numbers after \n
-    number = num.substring(delimiterIndex + 1);
-  }
-
-  final numList = number.split(RegExp(delimiterPattern));
-  final integerList = numList.map(int.parse).toList();
-
-  //check for negative numbers
-  final negative = integerList.where((n) => n < 0).toList();
-  if (negative.isNotEmpty) {
-    throw Exception('negative numbers not allowed : ${negative.join(',')}');
-  }
-
-  //check for number greater 1000 and omit it
-  final filteredList = integerList.where((n) => n <= 1000).toList();
-
-  return filteredList.isEmpty ? 0 : filteredList.reduce((a, b) => a + b);
-}
-
-String delimiterIs(int num, String numbers, int delimiterIndex) {
-  return RegExp.escape(numbers.substring(num, delimiterIndex));
 }
