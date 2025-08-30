@@ -3,16 +3,19 @@ import 'package:test/test.dart';
 
 void main() {
 
-  /*Input: “”, Output: 0*/
   test('empty string should return 0', ()
   {
     expect(add(""),equals(0));
   });
 
-
-  /*Input: “1”, Output: 1*/
   test('single input should return its value',()
   {
   expect(add("1"),equals(1));
   });
+
+  test('two numbers separated by , should return their sum',()
+  {
+    expect(add("2,4"),equals(6));
+  });
+
 }
