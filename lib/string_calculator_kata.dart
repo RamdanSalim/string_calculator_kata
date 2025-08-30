@@ -6,7 +6,7 @@ int add(String num) {
 
   if(num.contains(','))
   {
-    final sum = num.split(',');
+    final sum = num.replaceAll('\n',',').split(',');
     return sum.map(int.parse).reduce((a,b)=> a+b);
   }
 
