@@ -79,13 +79,21 @@ int add(String num) {
   String delimiterPattern = r'[,\n]';
   String number = num;
 
+  int start = 0;
   if (num.startsWith('//[')) {
+    final delimiters = <String>[];
+
     //multiple delimiter length
 
-    final delimiterIndex = number.indexOf(']');
-    final delimiter = delimiterIs(3, num, delimiterIndex);
-    delimiterPattern = delimiter;
-    number = num.substring(delimiterIndex + 2);
+    while (true) {
+      final open = num.indexOf('[', start);
+      if (open == -1) break;
+      final close = num.indexOf(']', open);
+      delimiters.add(RegExp.escape(num.substring(open + 1, close)));
+      start = close + 1;
+    }
+    delimiterPattern = delimiters.join('|');
+    number = num.substring(number.indexOf('\n') + 1);
   } else if (num.startsWith('//')) {
     //single delimiter
 
