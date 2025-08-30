@@ -26,6 +26,11 @@ void main() {
   {
     expect(add("1\n2,3"),equals(6));
   });
+
+  test('check for the delimiter and return the total sum',()
+  {
+    expect(add("//;\n1;2"),equals(3));
+  });
 }
 
 
