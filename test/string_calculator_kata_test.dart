@@ -3,6 +3,6 @@ import 'package:test/test.dart';
 
 void main() {
   test('empty string should return 0', () {
-    expect("",equals(0));
+    expect(calculate(""),equals(0));
   });
 }
