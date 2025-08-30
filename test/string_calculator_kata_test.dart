@@ -2,50 +2,74 @@ import 'package:test/test.dart';
 
 void main() {
 
+  //Input: “”, Output: 0
   test('empty string should return 0', ()
   {
     expect(add(""),equals(0));
   });
 
+
+  //Input: “1”, Output: 1
   test('single input should return its value',()
   {
   expect(add("1"),equals(1));
   });
 
+
+  // Input: “1,5”, Output: 6
   test('two string numbers separated by , should return their sum',()
   {
     expect(add("2,4"),equals(6));
   });
 
+
+  //Input: “5,3,2”, Output: 10
   test('multiple string numbers should return the total sum',()
   {
     expect(add("5,3,2"),equals(10));
   });
 
+
+  //"1\n2,3"
   test('numbers separated by newlines should also return the total sum',()
   {
     expect(add("1\n2,3"),equals(6));
   });
 
-  test('check for the delimiter and return the total sum',()
+
+  //[delimiter]\n[numbers…]
+  test('check for custom delimiter and return the total sum',()
   {
     expect(add("//;\n1;2"),equals(3));
   });
 }
 
 
+
+
 //test code
 int add(String num) {
-  if(num.isEmpty)
-  {
-    return 0;
-  }
+  if(num.isEmpty) return 0;
 
-  if(num.contains(','))
-  {
-    final sum = num.replaceAll('\n',',').split(',');
-    return sum.map(int.parse).reduce((a,b)=> a+b);
-  }
 
-  return int.parse(num);
+  //raw string to avoid escape or special regexp chars
+  String delimiterPattern = r'[,\n]';
+  String number = num;
+
+  if(num.startsWith('//'))
+    {
+      //assign the index of \n
+      final delimiterIndex = num.indexOf('\n');
+      //find the customer delimiter
+      final delimiter = RegExp.escape(num.substring(2,delimiterIndex));
+      //assign the custom delimiter to the pattern
+      delimiterPattern = delimiter;
+
+      //assign the numbers after \n
+      number = num.substring(delimiterIndex+1);
+    }
+
+  final numList = number.split(RegExp(delimiterPattern));
+
+  return numList.map(int.parse).reduce((a,b)=> a+b);
 }
