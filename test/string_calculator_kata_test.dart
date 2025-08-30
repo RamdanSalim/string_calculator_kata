@@ -28,7 +28,7 @@ void main() {
     expect(add("1\n2,3"), equals(6));
   });
 
-  //[delimiter]\n[numbers…]
+  //input: //[delimiter]\n[numbers…]
   test('check for custom delimiter and return the total sum', () {
     expect(add("//;\n1;2"), equals(3));
   });
@@ -61,8 +61,13 @@ void main() {
   });
 
   //[***]\n1***2***3, output : 6
-  test('multiple number of delimiter check and sum the total', () {
+  test('multiple length of delimiter check and sum the total', () {
     expect(add("//[***]\n1***2***3"), equals(6));
+  });
+
+  //input: //[delim1][delim2]\n, output: 6
+  test('multiple number of delimiters check and sum', () {
+    expect(add("//[*][%]\n1*2%3"), equals(6));
   });
 }
 
@@ -74,11 +79,20 @@ int add(String num) {
   String delimiterPattern = r'[,\n]';
   String number = num;
 
-  if (num.startsWith('//')) {
+  if (num.startsWith('//[')) {
+    //multiple delimiter length
+
+    final delimiterIndex = number.indexOf(']');
+    final delimiter = delimiterIs(3, num, delimiterIndex);
+    delimiterPattern = delimiter;
+    number = num.substring(delimiterIndex + 2);
+  } else if (num.startsWith('//')) {
+    //single delimiter
+
     //assign the index of \n
     final delimiterIndex = num.indexOf('\n');
     //find the customer delimiter
-    final delimiter = RegExp.escape(num.substring(2, delimiterIndex));
+    final delimiter = delimiterIs(2, num, delimiterIndex);
     //assign the custom delimiter to the pattern
     delimiterPattern = delimiter;
 
@@ -99,4 +113,8 @@ int add(String num) {
   final filteredList = integerList.where((n) => n <= 1000).toList();
 
   return filteredList.isEmpty ? 0 : filteredList.reduce((a, b) => a + b);
+}
+
+String delimiterIs(int num, String numbers, int delimiterIndex) {
+  return RegExp.escape(numbers.substring(num, delimiterIndex));
 }
