@@ -3,5 +3,12 @@ int add(String num) {
   {
   return 0;
   }
+
+  if(num.contains(','))
+  {
+    final sum = num.split(',');
+    return sum.map(int.parse).reduce((a,b)=> a+b);
+  }
+
   return int.parse(num);
 }
