@@ -59,6 +59,11 @@ void main() {
   test('check for number greater than 1000 and ignore it in the sum', () {
     expect(add("2,1001"), equals(2));
   });
+
+  //[***]\n1***2***3, output : 6
+  test('multiple number of delimiter check and sum the total', () {
+    expect(add("//[***]\n1***2***3"), equals(6));
+  });
 }
 
 //test code
@@ -90,6 +95,7 @@ int add(String num) {
     throw Exception('negative numbers not allowed : ${negative.join(',')}');
   }
 
+  //check for number greater 1000 and omit it
   final filteredList = integerList.where((n) => n <= 1000).toList();
 
   return filteredList.isEmpty ? 0 : filteredList.reduce((a, b) => a + b);
