@@ -23,4 +23,8 @@ void main() {
     expect(add("5,3,2"),equals(10));
   });
 
+  test('numbers separated by newlines should also return the total sum',()
+  {
+    expect(add("1\n2,3"),equals(6));
+  });
 }
